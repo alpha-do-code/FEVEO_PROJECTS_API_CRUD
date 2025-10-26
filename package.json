@@ -1,0 +1,22 @@
+{
+  "name": "api_crud",
+  "version": "1.0.0",
+  "description": "API REST - Liste de tâches",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "todo", "express", "uuid", "rest"
+  ],
+  "author": "Alpha Balde",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
