@@ -73,3 +73,21 @@ Le serveur démarre sur http://localhost:3000.
 
 ## Tests avec Postman
 Importez le fichier `API_CRUD_Postman_Collection.json` dans Postman pour tester facilement tous les endpoints de l'API.
+
+
+## Étape 1 — Installer les dépendances
+npm install bcryptjs jsonwebtoken
+
+## Étape 2 — Ajouter la “base” d’utilisateurs (en mémoire) : Dans ton server.js, crée un tableau en mémoire pour stocker les utilisateurs 
+
+const users = [];
+
+## Structure d'un user :
+```json
+{
+  id: "uuid",
+  username: "alpha",
+  email: "alpha@mail.com",
+  password: "haché_avec_bcrypt"
+}
+```
