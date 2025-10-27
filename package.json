@@ -8,12 +8,17 @@
     "dev": "nodemon server.js"
   },
   "keywords": [
-    "todo", "express", "uuid", "rest"
+    "todo",
+    "express",
+    "uuid",
+    "rest"
   ],
   "author": "Alpha Balde",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

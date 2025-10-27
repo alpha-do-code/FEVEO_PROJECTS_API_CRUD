@@ -91,3 +91,6 @@ const users = [];
   password: "haché_avec_bcrypt"
 }
 ```
+
+## Les collections avec Postman:
+[text](d:/Telechargement/Tâches_postman.postman_collection.json) [text](d:/Telechargement/User_postman.postman_collection.json)
