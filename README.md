@@ -72,7 +72,7 @@ Supprimer une tâche.
 Le serveur démarre sur http://localhost:3000.
 
 ## Tests avec Postman
-Importez le fichier `API_CRUD_Postman_Collection.json` dans Postman pour tester facilement tous les endpoints de l'API.
+Importez le fichier `taches_postman.postman_collection.json` et `User_postman.postman_collection.json)` dans Postman pour tester facilement tous les endpoints de l'API.
 
 
 ## Étape 1 — Installer les dépendances
@@ -85,12 +85,9 @@ const users = [];
 ## Structure d'un user :
 ```json
 {
-  id: "uuid",
-  username: "alpha",
-  email: "alpha@mail.com",
-  password: "haché_avec_bcrypt"
+  "id": "uuid",
+  "username": "alpha",
+  "email": "alpha@mail.com",
+  "password": "haché_avec_bcrypt"
 }
 ```
-
-## Les collections avec Postman:
-[text](d:/Telechargement/Tâches_postman.postman_collection.json) [text](d:/Telechargement/User_postman.postman_collection.json)
