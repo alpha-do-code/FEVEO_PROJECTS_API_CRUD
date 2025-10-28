@@ -72,7 +72,7 @@ Supprimer une tâche.
 Le serveur démarre sur http://localhost:3000.
 
 ## Tests avec Postman
-Importez le fichier `taches_postman.postman_collection.json` et `User_postman.postman_collection.json)` dans Postman pour tester facilement tous les endpoints de l'API.
+Importez le fichier `taches_postman.postman_collection.json` et `User_postman.postman_collection.json` dans Postman pour tester facilement tous les endpoints de l'API.
 
 
 ## Étape 1 — Installer les dépendances
