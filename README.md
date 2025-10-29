@@ -1,93 +1,149 @@
-# TODO API (Node.js + Express) — Stockage en mémoire
+# API CRUD - Liste de tâches avec MongoDB Atlas
 
-## Description
-API REST CRUD pour gérer des tâches (TODO list) — stockage en mémoire (tableau).
+API REST complète pour gérer une liste de tâches avec Express.js, MongoDB Atlas et authentification JWT.
 
+## Fonctionnalités
 
-## Structure d'une tâche
-```json
-{
-  "id": "uuid",
-  "title": "Faire les courses",
-  "description": "Acheter du pain et du lait",
-  "completed": false,
-  "priority": "high",
-  "dueDate": "2025-10-25",
-  "createdAt": "2025-10-21T10:00:00Z"
-}
-```
+- Authentification utilisateur (inscription/connexion) avec JWT
+- CRUD complet des tâches avec propriété utilisateur
+- Endpoint public pour consulter les tâches
+- Filtrage par statut, priorité et date d'échéance
+- Validation des données d'entrée
+- Stockage persistant avec MongoDB Atlas
+- Gestion d'erreurs
 
-## Endpoints
+## Installation
 
-### GET /api/tasks
-Récupérer toutes les tâches. Supporte des filtres optionnels via query parameters :
-- `completed`: true ou false
-- `priority`: low, medium, high
-- `dueDate`: YYYY-MM-DD
-
-Exemple : `GET /api/tasks?completed=false&priority=high`
-
-### GET /api/tasks/:id
-Récupérer une tâche par ID.
-
-### POST /api/tasks
-Créer une nouvelle tâche. Le body doit contenir au minimum `title` (string non vide).
-
-Exemple de body :
-```json
-{
-  "title": "Faire les courses",
-  "description": "Acheter du pain et du lait",
-  "completed": false,
-  "priority": "high",
-  "dueDate": "2025-10-25"
-}
-```
-
-### PUT /api/tasks/:id
-Mettre à jour une tâche (remplacement partiel autorisé). Seuls les champs fournis sont mis à jour.
-
-### DELETE /api/tasks/:id
-Supprimer une tâche.
-
-## Validation et erreurs
-- **400 Bad Request** : Données invalides (ex: title vide, priority invalide, dueDate mal formatée).
-- **404 Not Found** : Tâche non trouvée.
-- **500 Internal Server Error** : Erreur serveur.
-
-## Setup
-1. Copier les fichiers `package.json` et `server.js`.
-2. Installer dépendances :
-   ```bash
-   npm install
-3. Lancer le serveur :
-   ```bash
-   npm start
+1. Cloner le repository
+2. Installer les dépendances : `npm install`
+3. Configurer MongoDB Atlas :
+   - Créer un compte sur [MongoDB Atlas](https://www.mongodb.com/atlas)
+   - Créer un cluster gratuit
+   - Obtenir la chaîne de connexion
+4. Créer un fichier `.env` avec vos variables d'environnement :
    ```
-   ou en mode développement :
-   ```bash
-   npm run dev
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/todo-api
+   JWT_SECRET=votre-cle-secrete-jwt
    ```
+5. Démarrer le serveur : `npm run dev`
 
-Le serveur démarre sur http://localhost:3000.
+## Utilisation
 
-## Tests avec Postman
-Importez le fichier `taches_postman.postman_collection.json` et `User_postman.postman_collection.json` dans Postman pour tester facilement tous les endpoints de l'API.
+Le serveur démarre sur `http://localhost:3000`.
 
+### Authentification
 
-## Étape 1 — Installer les dépendances
-npm install bcryptjs jsonwebtoken
+#### POST /api/auth/register
+Inscrit un nouvel utilisateur.
 
-## Étape 2 — Ajouter la “base” d’utilisateurs (en mémoire) : Dans ton server.js, crée un tableau en mémoire pour stocker les utilisateurs 
-
-const users = [];
-
-## Structure d'un user :
+**Corps de la requête :**
 ```json
 {
-  "id": "uuid",
-  "username": "alpha",
-  "email": "alpha@mail.com",
-  "password": "haché_avec_bcrypt"
+  "username": "nomutilisateur",
+  "email": "email@example.com",
+  "password": "motdepasse"
 }
 ```
+
+#### POST /api/auth/login
+Connecte un utilisateur.
+
+**Corps de la requête :**
+```json
+{
+  "email": "email@example.com",
+  "password": "motdepasse"
+}
+```
+
+**Réponse :**
+```json
+{
+  "token": "jwt-token-here"
+}
+```
+
+### Endpoints des tâches
+
+Utilisez le token JWT dans l'en-tête `Authorization: Bearer <token>` pour les endpoints protégés.
+
+#### GET /api/tasks/public
+Récupère toutes les tâches publiques (sans authentification).
+
+#### GET /api/tasks
+Récupère les tâches de l'utilisateur connecté avec filtrage optionnel.
+
+**Paramètres de requête :**
+- `completed`: `true` ou `false`
+- `priority`: `low`, `medium`, `high`
+- `dueDate`: date au format `AAAA-MM-JJ`
+
+#### GET /api/tasks/:id
+Récupère une tâche spécifique de l'utilisateur connecté.
+
+#### POST /api/tasks
+Crée une nouvelle tâche pour l'utilisateur connecté.
+
+**Corps de la requête :**
+```json
+{
+  "title": "Titre de la tâche",
+  "description": "Description optionnelle",
+  "completed": false,
+  "priority": "medium",
+  "dueDate": "2024-12-31"
+}
+```
+
+#### PUT /api/tasks/:id
+Met à jour une tâche de l'utilisateur connecté.
+
+#### DELETE /api/tasks/:id
+Supprime une tâche de l'utilisateur connecté.
+
+## Structure des données
+
+### Utilisateur
+- `id`: Identifiant unique (UUID)
+- `username`: Nom d'utilisateur
+- `email`: Email (unique)
+- `password`: Mot de passe hashé
+- `createdAt`: Date de création
+
+### Tâche
+- `id`: Identifiant unique (UUID)
+- `title`: Titre de la tâche (obligatoire)
+- `description`: Description (optionnelle)
+- `completed`: Statut de completion (booléen)
+- `priority`: Priorité (`low`, `medium`, `high`)
+- `dueDate`: Date d'échéance (format `AAAA-MM-JJ`, optionnelle)
+- `createdAt`: Date de création
+- `user`: Référence à l'utilisateur propriétaire
+
+## Tests avec cURL
+
+### Inscription
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","email":"test@example.com","password":"password123"}'
+```
+
+### Connexion
+```bash
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+```
+
+### Créer une tâche (remplacez TOKEN par votre token JWT)
+```bash
+curl -X POST http://localhost:3000/api/tasks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TOKEN" \
+  -d '{"title":"Ma première tâche","description":"Description","priority":"high"}'
+```
+
+### Récupérer les tâches publiques
+```bash
+curl -X GET http://localhost:3000/api/tasks/public
